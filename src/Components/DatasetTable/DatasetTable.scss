@@ -1,0 +1,59 @@
+@import '../../styles/colors.scss';
+.DatasetTable {
+  height: 100%;
+  width: 100%;
+  .table-responsive {
+    overflow: visible !important;
+    tbody{
+      tr:nth-child(even) {
+        td {
+          background-color: $background;
+        }
+      }
+      tr:nth-child(odd) {
+        td {
+          background-color: $background-light;
+        }
+      }
+      td {
+        overflow-wrap: break-word;
+        color: $font;
+        border: none;
+        padding-top: 15px;
+        padding-bottom: 15px;
+      }
+    }
+  }
+  .StatsRow {
+    .Stats {
+      text-align: left;
+      display: block;
+      .key {
+        font-weight: bold;
+      }
+    }
+    .UniqueCount {
+      font-size: large;
+    }
+    td {
+      font-weight: 400;
+      border-color: $table-border;;
+      border-right: none;;
+      border-left: none;
+      color: $font;
+    }
+  }
+
+  .header {
+    z-index: 1000;
+    th {
+      position: sticky;
+      top: 0;
+      background: $background;
+      border-color: $table-border;
+      border-right: none;;
+      border-left: none;
+      color: $font;
+    }
+  }
+}

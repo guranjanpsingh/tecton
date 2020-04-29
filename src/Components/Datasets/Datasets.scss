@@ -1,0 +1,32 @@
+@import '../../styles/base.scss';
+.Datasets {
+  display: flex;
+  font-size: smaller;
+  .List {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: $side-bar-background;
+    position: sticky;
+    height: 100vh;
+    min-width: 300px;
+    .DatasetName {
+      color: $font;
+      @include font;
+      text-align: left;
+      padding: 10px;
+      cursor: pointer;
+      &:hover {
+        background-color: $background-light;
+      }
+      &.active {
+        background-color: $background-light;
+      }
+    }
+  }
+  .Details {
+    width: 100%;
+    background-color: #F4F3EE;
+    @include font;
+  }
+}
