@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import { TableData } from '../../common/types';
 import DatasetTableHeaderRow from './DatasetTableHeaderRow';
+import * as K from '../../common/constants';
+
 
 import './DatasetTable.scss';
 
@@ -9,16 +11,9 @@ type DatasetTableProps = {
   data: TableData;
 }
 
-const renderTableHeader = (headers: Array<string>): Array<JSX.Element> => {
-  return headers.map(header => {
-    return (
-      <th key={header}>{ header }</th>
-    )
-  })
-}
-
 const renderTableRows = (rows: Array<Array<string>>): Array<JSX.Element> => {
   return rows.map((row, idx) => {
+
     return (
       <tr key={idx + row[0]}>
         {
@@ -33,9 +28,58 @@ const renderTableRows = (rows: Array<Array<string>>): Array<JSX.Element> => {
   })
 }
 
+const sortData = (data: Array<Array<string>>, sortColumnIndex: number, sortOrder: string, type: string) => {
+  return data.sort((a, b) => {
+    if (type === 'number') {
+      if (sortOrder === K.sortOrder.Asc) {
+        return Number(a[sortColumnIndex]) - Number(b[sortColumnIndex])
+      } else {
+        return Number(b[sortColumnIndex]) - Number(a[sortColumnIndex]);
+      }
+    } else if (type === 'date') {
+      if (sortOrder === K.sortOrder.Asc) {
+        return Number(new Date(a[sortColumnIndex])) - Number(new Date(b[sortColumnIndex]))
+      } else {
+        return Number(new Date(b[sortColumnIndex])) - Number(new Date(a[sortColumnIndex]));
+      }
+    } else {
+      if (sortOrder === K.sortOrder.Asc) {
+        return a[sortColumnIndex].localeCompare(b[sortColumnIndex]);
+      } else {
+        return b[sortColumnIndex].localeCompare(a[sortColumnIndex]);
+      }
+    }
+  })
+}
 
+const getSortOrder = (colIdx: number, sortColumn: number, sortOrder: string) => {
+  if (colIdx === sortColumn) {
+    return sortOrder === K.sortOrder.Asc ? K.sortOrder.Desc : K.sortOrder.Desc;
+  }
+  return K.sortOrder.Asc;
+}
 
 const DatasetTable = ({data}: DatasetTableProps) => {
+  const [sortColumn, setSortColumn] = useState(0);
+  const [sortOrder, setSortOrder] = useState('ASC');
+  data.rows = sortData(data.rows, sortColumn, sortOrder, data.types[sortColumn]);
+
+  const renderTableHeader = (headers: Array<string>): Array<JSX.Element> => {
+    return headers.map((header, idx) => {
+      return (
+        <th 
+          key={header} 
+          onClick={
+            () => {
+              setSortOrder(getSortOrder(idx, sortColumn, sortOrder))
+              setSortColumn(idx);
+          }
+        }>
+          { header }
+        </th>
+      )
+    })
+  }
   return (
     <div className="DatasetTable">
       <Table bordered striped responsive>

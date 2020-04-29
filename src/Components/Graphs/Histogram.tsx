@@ -1,6 +1,7 @@
 import React from 'react';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
+import * as K from '../../common/constants';
 
 require("highcharts/modules/histogram-bellcurve")(Highcharts);
 
@@ -18,7 +19,7 @@ const Histogram = ({values}: HistogramProps) => {
     },
     plotOptions: {
       histogram: {
-        binsNumber: 10,
+        binsNumber: K.histogramBuckets,
         borderColor: '#1B2A41'
       },
     },
