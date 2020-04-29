@@ -30,6 +30,9 @@ const renderTableRows = (rows: Array<Array<string>>): Array<JSX.Element> => {
 
 const sortData = (data: Array<Array<string>>, sortColumnIndex: number, sortOrder: string, type: string) => {
   return data.sort((a, b) => {
+    if (!a || !b || !a[sortColumnIndex] || !b[sortColumnIndex]) {
+      return 1;
+    }
     if (type === 'number') {
       if (sortOrder === K.sortOrder.Asc) {
         return Number(a[sortColumnIndex]) - Number(b[sortColumnIndex])
